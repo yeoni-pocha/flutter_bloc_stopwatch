@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stopwatch_bloc/bloc/stopwatch_bloc.dart';
 import 'package:stopwatch_bloc/cubit/stopwatch_cubit.dart';
 import 'package:stopwatch_bloc/utils.dart';
@@ -10,7 +11,11 @@ class StopWatchCubitScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Text('스톱워치'),
+      title: const Text('스톱워치'),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => context.go('/'),
+      ),
     ),
     body: Column(
       children: [
@@ -38,27 +43,31 @@ class StopWatchCubitScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         FloatingActionButton(
+          heroTag: 'startCubit',
           onPressed: () =>
               context.read<StopwatchCubit>().started(),
           tooltip: '시작',
           child: const Icon(Icons.play_arrow),
         ),
         FloatingActionButton(
+          heroTag: 'stopCubit',
           onPressed: () =>
               context.read<StopwatchCubit>().stopped(),
           tooltip: '정지',
           child: const Icon(Icons.stop),
         ),
         FloatingActionButton(
+          heroTag: 'resetCubit',
           onPressed: () =>
               context.read<StopwatchCubit>().reset(),
           tooltip: '초기화',
           child: const Icon(Icons.refresh),
         ),
         FloatingActionButton(
-            onPressed: () => context.read<StopwatchCubit>().lapRecorded(),
-            tooltip: "랩 기록",
-            child: const Icon(Icons.flag))
+          heroTag: 'lapCubit',
+          onPressed: () => context.read<StopwatchCubit>().lapRecorded(),
+          tooltip: "랩 기록",
+          child: const Icon(Icons.flag))
       ],
     ),
   );

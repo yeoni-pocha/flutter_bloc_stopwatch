@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stopwatch_bloc/bloc/stopwatch_bloc.dart';
-import 'package:stopwatch_bloc/cubit/stopwatch_cubit.dart';
-import 'package:stopwatch_bloc/bloc/stopwatch_bloc_screen.dart';
-import 'package:stopwatch_bloc/cubit/stopwatch_cubit_screen.dart';
+import 'package:stopwatch_bloc/router.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<StopwatchCubit>(
-      create: (context) => StopwatchCubit(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        // home: const StopWatchBlocScreen(), // bloc 방식
-        home: const StopWatchCubitScreen(), // cubit 방식
+    return MaterialApp.router(
+      routerConfig: router,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
     );
   }
