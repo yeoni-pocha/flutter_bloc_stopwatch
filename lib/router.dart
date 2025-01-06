@@ -1,5 +1,4 @@
 // 라우터 설정
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stopwatch_bloc/bloc/stopwatch_bloc.dart';

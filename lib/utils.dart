@@ -1,4 +1,3 @@
-
 String formatElapsedTime(int milliseconds) {
   final hours = ((milliseconds / (1000 * 60 * 60)) % 24).floor();
   final minutes = ((milliseconds / (1000 * 60)) % 60).floor();
@@ -6,3 +5,5 @@ String formatElapsedTime(int milliseconds) {
   final millisecondsDisplay = (milliseconds % 1000).floor();
   return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}:${millisecondsDisplay.toString().padLeft(3, '0')}';
 }
+
+final emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');

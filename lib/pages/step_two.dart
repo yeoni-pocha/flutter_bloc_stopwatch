@@ -1,36 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stopwatch_bloc/bloc/name_bloc.dart';
 import 'package:stopwatch_bloc/widgets/flat_button.dart';
 
-class StepTwo extends StatefulWidget {
+class StepTwo extends StatelessWidget {
   const StepTwo({super.key});
-
-  @override
-  State<StepTwo> createState() => _StepTwoState();
-}
-
-class _StepTwoState extends State<StepTwo> {
-  final TextEditingController _nameController = TextEditingController();
-  bool _isButtonActive = false;
-
-  void _checkNameLength() {
-    final nameLength = _nameController.text.length;
-    setState(() {
-      _isButtonActive = nameLength > 2;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController.addListener(_checkNameLength);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _nameController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +18,31 @@ class _StepTwoState extends State<StepTwo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                  labelText: '이름',
-                  hintText: '이름을 입력하세요',
-                  border: OutlineInputBorder()),
-            ),
+            BlocBuilder<NameBloc, NameState>(builder: (context, state) {
+              return TextField(
+                onChanged: (name) =>
+                    context.read<NameBloc>().add(NameChanged(name)),
+                decoration: InputDecoration(
+                    labelText: '이름',
+                    hintText: '이름을 입력하세요',
+                    border: OutlineInputBorder(),
+                    errorText: !state.isValid ? '유효하지 않은 이름입니다.' : null),
+              );
+            }),
             const SizedBox(
               height: 20.0,
             ),
-            FlatButton(
-                onPressed: () {
-                  context.go('/three');
-                },
-                text: 'Next',
-                isActive: _isButtonActive)
+            BlocBuilder<NameBloc, NameState>(
+              buildWhen: (pre, cur) => pre.isValid != cur.isValid,
+              builder: (context, state) {
+                return FlatButton(
+                    onPressed: () {
+                      context.go('/three');
+                    },
+                    text: 'Next',
+                    isActive: state.isValid);
+              },
+            )
           ],
         ),
       ),
